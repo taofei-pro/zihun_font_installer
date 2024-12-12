@@ -19,3 +19,4 @@ to this in your browser, and you can call your Go code from devtools.
 To build a redistributable, production mode package, use `wails build`.
 
 `wails build -platform windows/amd64` will build a Windows binary.
+`wails build -platform darwin/universal` will build a MacOS binary.
