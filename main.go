@@ -17,9 +17,9 @@ func main() {
 
 	// Create application with options
 	err := wails.Run(&options.App{
-		Title:  "zihun_font_installer",
-		Width:  1024,
-		Height: 768,
+		Title:  "字魂字体安装器",
+		Width:  800,
+		Height: 600,
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},

@@ -1,28 +1,45 @@
-import {useState} from 'react';
-import logo from './assets/images/logo-universal.png';
-import './App.css';
-import {Greet} from "../wailsjs/go/main/App";
+import React, { useState } from "react";
+import { SelectDirectory, InstallFonts } from "../wailsjs/go/main/App";
+import "./App.css";
 
 function App() {
-    const [resultText, setResultText] = useState("Please enter your name below 👇");
-    const [name, setName] = useState('');
-    const updateName = (e: any) => setName(e.target.value);
-    const updateResultText = (result: string) => setResultText(result);
+  const [outputPath, setOutputPath] = useState("");
 
-    function greet() {
-        Greet(name).then(updateResultText);
+  // 选择目标路径
+  const selectOutputPath = async () => {
+    try {
+      const result = await SelectDirectory();
+      if (result) {
+        setOutputPath(result);
+      }
+    } catch (err) {
+      alert(`选择目录失败: ${err}`);
+    }
+  };
+
+  // 安装字体
+  const installFonts = async () => {
+    if (!outputPath) {
+      alert("请选择目标路径");
+      return;
     }
 
-    return (
-        <div id="App">
-            <img src={logo} id="logo" alt="logo"/>
-            <div id="result" className="result">{resultText}</div>
-            <div id="input" className="input-box">
-                <input id="name" className="input" onChange={updateName} autoComplete="off" name="input" type="text"/>
-                <button className="btn" onClick={greet}>Greet</button>
-            </div>
-        </div>
-    )
+    try {
+      await InstallFonts(outputPath);
+      alert("字体安装成功！");
+    } catch (err) {
+      alert(`安装失败: ${err}`);
+    }
+  };
+
+  return (
+    <div className="container">
+      <h1 className="title">字体安装器</h1>
+      <button onClick={selectOutputPath}>选择目标路径</button>
+      <button onClick={installFonts}>安装字体</button>
+      {outputPath && <p className="path">当前选择的路径: {outputPath}</p>}
+    </div>
+  );
 }
 
-export default App
+export default App;
